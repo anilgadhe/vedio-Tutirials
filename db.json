@@ -1,0 +1,66 @@
+{
+  "admin": [
+    {
+      "id": "1",
+      "admin_id": "john_admin",
+      "password": "john@123"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "user_id": "david_nit",
+      "user_name": "David",
+      "password": "david1",
+      "email": "david@outlook.com"
+    },
+    {
+      "id": "2",
+      "user_id": "sainath",
+      "user_name": "ware",
+      "password": "sai@1",
+      "email": "sai@outlook.com"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "category_id": 1,
+      "category_name": "Java"
+    },
+    {
+      "id": "2",
+      "category_id": 2,
+      "category_name": "React"
+    },
+    {
+      "id": "3",
+      "category_id": 3,
+      "category_name": "AWS"
+    }
+  ],
+  "videos": [
+    {
+      "id": "1",
+      "title": "Java Stream API",
+      "description": "Java Tutorials",
+      "url": "https://www.youtube.com/embed/bpoWW-OAxRo",
+      "likes": 200,
+      "dislikes": 0,
+      "views": 500,
+      "comments": "Thank you",
+      "category_id": 1
+    },
+    {
+      "id": "2",
+      "title": "javaScript tutorial",
+      "description": "base for the react",
+      "url": "https://www.youtube.com/embed/a-wVHL0lpb0",
+      "likes": 200,
+      "dislikes": 5,
+      "views": 5000,
+      "comments": "nice content",
+      "category_id": 2
+    }
+  ]
+}
