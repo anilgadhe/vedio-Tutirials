@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useFormik } from "formik"
 import { Link, useNavigate } from "react-router-dom";
+import *as yup from 'yup';
 
 
 export function AddVedio() {
@@ -8,7 +9,7 @@ export function AddVedio() {
     let navigate = useNavigate();
     let formik = useFormik({
         initialValues: {
-            id: '',
+
             title: '',
             description: '',
             url: '',
@@ -18,9 +19,15 @@ export function AddVedio() {
             comments: '',
             category_id: 0
         },
+        validationSchema:yup.object({
+            title:yup.string().required("title is required"),
+            description:yup.string().required("description is required"),
+             url:yup.string().required("URL is required"),
+            category_id:yup.number().required("Category_id is required"),
+        }),
         onSubmit: (vedio) => {
             const data = {
-                id: vedio.id,
+
                 title: vedio.title,
                 description: vedio.description,
                 url: vedio.url,
@@ -54,17 +61,19 @@ export function AddVedio() {
             <form onSubmit={formik.handleSubmit} className="px-3" >
 
                 <dl>
-                    <dt>id</dt>
-                    <dd><input type="text" name="id" onChange={formik.handleChange} className="form-control" /></dd>
-
                     <dt>title</dt>
                     <dd><input type="text" name="title" onChange={formik.handleChange} className="form-control" /></dd>
+                    <dd className="text-danger">{formik.errors.title}</dd>
 
                     <dt>description</dt>
                     <dd><input type="text" name="description" onChange={formik.handleChange} className="form-control" /></dd>
+                    <dd className="text-danger">{formik.errors.description}</dd>
+
 
                     <dt>url</dt>
                     <dd><input type="text" name="url" onChange={formik.handleChange} className="form-control" /></dd>
+                    <dd className="text-danger">{formik.errors.url}</dd>
+
 
                     <dt>likes</dt>
                     <dd><input type="number" name="likes" onChange={formik.handleChange} className="form-control" /></dd>
@@ -79,10 +88,18 @@ export function AddVedio() {
                     <dd><input type="text" name="comments" onChange={formik.handleChange} className="form-control" /></dd>
 
                     <dt>category_id</dt>
-                    <dd><input type="number" name="category_id" onChange={formik.handleChange} className="form-control" /></dd>
+                    <dd>
+                        <select name="category_id" onChange={formik.handleChange}>
+                            <option value="-1">select Category</option>
+                            <option value="1">Java</option>
+                            <option value="2">React</option>
+                            <option value="3">AWS</option>
+                        </select>
+                    </dd>
+                    <dd className="text-danger">{formik.errors.category_id}</dd>
 
                 </dl>
-                <button className="btn btn-success" type="submit">Add</button>
+                <button className="btn btn-success" disabled={(formik.isValid)?false:true} type="submit">Add</button>
                 <Link to="/admin-dashboard" className="btn btn-danger mx-2">Cancel</Link>
             </form>
         </div>

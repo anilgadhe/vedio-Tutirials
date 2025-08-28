@@ -41,25 +41,58 @@
   ],
   "videos": [
     {
-      "id": "1",
-      "title": "Java Stream API",
-      "description": "Java Tutorials",
-      "url": "https://www.youtube.com/embed/bpoWW-OAxRo",
-      "likes": 200,
-      "dislikes": 0,
-      "views": 500,
-      "comments": "Thank you",
-      "category_id": 1
-    },
-    {
-      "id": "2",
-      "title": "javaScript tutorial",
+      "title": " javaScript tutorial",
       "description": "base for the react",
       "url": "https://www.youtube.com/embed/a-wVHL0lpb0",
       "likes": 200,
       "dislikes": 5,
       "views": 5000,
       "comments": "nice content",
+      "category_id": 2,
+      "id": "2"
+    },
+    {
+      "title": "React interview question",
+      "description": "React zero to hero playlist",
+      "url": "https://www.youtube.com/embed/26ju9BGgpeU",
+      "likes": 5000,
+      "dislikes": 0,
+      "views": 1500000,
+      "comments": "please add new videos we want more",
+      "category_id": 2,
+      "id": "735e"
+    },
+    {
+      "title": "Aws ",
+      "description": "Aws beginer introduction ",
+      "url": "https://www.youtube.com/embed/a9__D53WsUs",
+      "likes": 20000,
+      "dislikes": 0,
+      "views": 4000939,
+      "comments": "nice introduction ",
+      "category_id": 3,
+      "id": "0000"
+    },
+    {
+      "title": "Aws introduction",
+      "description": "beginer level introdunction of AWS",
+      "url": "https://www.youtube.com/embed/Nzv-tzU-UAw",
+      "likes": 3000,
+      "dislikes": 5,
+      "views": 500,
+      "comments": "nice content",
+      "category_id": 3,
+      "id": "f7fc"
+    },
+    {
+      "id": "c725",
+      "title": "react project",
+      "description": "react responsive project",
+      "url": "https://www.youtube.com/embed/NjqjakgPL84",
+      "likes": 333354,
+      "dislikes": 456,
+      "views": 324344343,
+      "comments": "preety well",
       "category_id": 2
     }
   ]
