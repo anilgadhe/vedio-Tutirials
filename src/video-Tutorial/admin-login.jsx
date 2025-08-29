@@ -6,13 +6,13 @@ import {useCookies} from 'react-cookie'
 import { useEffect } from "react";
 
 export function AdminLogin() {
-     const [cookies , setCookie , removeCookie] = useCookies(['name']);
+     const [cookies , setCookie , removeCookie] = useCookies(['admin_id']);
     const navigate = useNavigate();
 
      useEffect(()=>{
         var Cookie = navigator.cookieEnabled;
 
-        if(Cookie){
+        if(cookies.admin_id){
             navigate("/admin-dashboard");
         }
      },[])
@@ -28,7 +28,7 @@ export function AdminLogin() {
 
                 if (adminUser) {
                     if (adminUser.password === admin.password) {
-                        setCookie('admin_id',admin.admin_id,{expires: new Date('2025-08-27')});
+                        setCookie('admin_id',admin.admin_id,{expires: new Date('2025-08-29')});
                         navigate("/admin-dashboard")
                     } else {
                         alert("invalid password");

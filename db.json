@@ -20,6 +20,13 @@
       "user_name": "ware",
       "password": "sai@1",
       "email": "sai@outlook.com"
+    },
+    {
+      "id": "e244",
+      "user_id": "anil@1",
+      "user_name": "Anil",
+      "password": "anil1",
+      "email": "gadheanil57@gmail.com"
     }
   ],
   "categories": [
