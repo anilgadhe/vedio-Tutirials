@@ -48,10 +48,10 @@ const ExpandMore = styled((props) => {
 
 export function Vediodata({ onChildClick }) {
 
-    const [expanded, setExpanded] = useState(false);
+    const [expandedCard, setExpandedCard] = useState(false);
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
+    const handleExpandClick = (id) => {
+        setExpandedCard(expandedCard === id ? null : id);
     };
 
     const [vedios, setVedios] = useState([{
@@ -111,15 +111,15 @@ export function Vediodata({ onChildClick }) {
                                 <ShareIcon />
                             </IconButton>
                             <ExpandMore
-                                expand={expanded}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
+                                expand={expandedCard === data.id}
+                                onClick={()=>handleExpandClick(data.id)}
+                                aria-expanded={expandedCard === data.id}
                                 aria-label="show more"
                             >
                                 <ExpandMoreIcon />
                             </ExpandMore>
                         </CardActions>
-                        <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        <Collapse in={expandedCard === data.id} timeout="auto" unmountOnExit>
                             <CardContent>
                                 <Typography sx={{ marginBottom: 2 }}>
                                     <span className='bi bi-hand-thumbs-up'>{data.likes}</span>
