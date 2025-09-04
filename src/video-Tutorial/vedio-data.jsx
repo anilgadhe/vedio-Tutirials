@@ -18,8 +18,9 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios'
-
-
+import { useDispatch } from 'react-redux';
+import { addToWatchLater } from '../slicers/slicer';
+import Button from '@mui/material/Button';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -67,8 +68,11 @@ export function Vediodata({ onChildClick }) {
     }],)
 
     let context = useContext(userContext);
+    const dispatch = useDispatch();
 
-     
+    function handleAddtoWatchLater(vedio) {
+        dispatch(addToWatchLater(vedio))
+    }
 
     useEffect(() => {
         axios.get('http://localhost:3000/videos').then(response => setVedios(response.data))
@@ -77,16 +81,16 @@ export function Vediodata({ onChildClick }) {
             })
     }, [])
 
- let stringData = context.toLowerCase();
+    let stringData = context.toLowerCase();
 
     return (
         <div className="d-flex flex-wrap">
 
             {
                 vedios.filter(vedio => {
-                  return stringData == "" || vedio.title.toLowerCase().includes(stringData);
+                    return stringData == "" || vedio.title.toLowerCase().includes(stringData);
                 }).map(data => (
-                    <Card key={data.id} className='m-2'  sx={{ maxWidth: 350 }}>
+                    <Card key={data.id} className='m-2' sx={{ maxWidth: 350 }}>
                         <CardHeader
                             title={data.title}
                         />
@@ -99,9 +103,23 @@ export function Vediodata({ onChildClick }) {
                             allowFullScreen
                         />
                         <CardContent>
-                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                  Description : {data.description}
-                            </Typography>
+                            <div className='d-flex justify-content-around'>
+
+                                <div>
+                                    <Button className='bi bi-hand-thumbs-up fs-3'></Button>
+                                    <div className='text-center'>{data.likes}</div>
+                                </div>
+
+                                <div>
+                                    <Button className='bi bi-hand-thumbs-down fs-3'></Button>
+                                    <div  className='text-center'>{data.dislikes}</div>
+                                </div>
+
+                                <div>
+                                    <Button className="bi bi-eye fs-3"></Button>
+                                    <div  className='text-center'>{data.views}</div>
+                                </div>
+                            </div>
                         </CardContent>
                         <CardActions disableSpacing>
                             <IconButton aria-label="add to favorites">
@@ -112,7 +130,7 @@ export function Vediodata({ onChildClick }) {
                             </IconButton>
                             <ExpandMore
                                 expand={expandedCard === data.id}
-                                onClick={()=>handleExpandClick(data.id)}
+                                onClick={() => handleExpandClick(data.id)}
                                 aria-expanded={expandedCard === data.id}
                                 aria-label="show more"
                             >
@@ -122,21 +140,12 @@ export function Vediodata({ onChildClick }) {
                         <Collapse in={expandedCard === data.id} timeout="auto" unmountOnExit>
                             <CardContent>
                                 <Typography sx={{ marginBottom: 2 }}>
-                                    <span className='bi bi-hand-thumbs-up'>{data.likes}</span>
-
-                                </Typography>
-                                <Typography sx={{ marginBottom: 2 }}>
-                                    <span className='bi bi-hand-thumbs-down'>{data.dislikes}</span>
-                                </Typography>
-                                <Typography className="bi bi-eye" sx={{ marginBottom: 2 }}>
-                                    {data.views}
-                                </Typography>
-                                <Typography sx={{ marginBottom: 2 }}>
                                     {data.comments}
                                 </Typography>
 
                             </CardContent>
                         </Collapse>
+                        <Button variant='contained' onClick={() => { handleAddtoWatchLater(data) }} color='success' className='w-100 bi bi-save2-fill fs-4'></Button>
                     </Card>
 
                 ))
