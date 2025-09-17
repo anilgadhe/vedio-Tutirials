@@ -19,7 +19,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios'
 import { useDispatch } from 'react-redux';
-import { addToWatchLater } from '../slicers/slicer';
+import { addToWatchLater, dislikeVedio, likeVideo } from '../slicers/slicer';
+
 import Button from '@mui/material/Button';
 
 const ExpandMore = styled((props) => {
@@ -70,16 +71,79 @@ export function Vediodata({ onChildClick }) {
     let context = useContext(userContext);
     const dispatch = useDispatch();
 
-    function handleAddtoWatchLater(vedio) {
-        dispatch(addToWatchLater(vedio))
+    function handleAddtoWatchLater(data) {
+        dispatch(addToWatchLater(data))
     }
+
+    const handleLike = async (videoId, userId) => {
+        const { data: video } = await axios.get(`http://localhost:3000/videos/${videoId}`);
+
+        let updatedVideo;
+
+        if (!video.likedBy.includes(userId)) {
+            // 👉 Like
+            updatedVideo = {
+                ...video,
+                likes: video.likes + 1,
+                likedBy: [...video.likedBy, userId]
+            };
+            console.log("Liked successfully!");
+        } else {
+            // 👉 Unlike
+            updatedVideo = {
+                ...video,
+                likes: video.likes > 0 ? video.likes - 1 : 0,
+                likedBy: video.likedBy.filter(uid => uid !== userId)
+            };
+            console.log("Unliked successfully!");
+        }
+
+        // Save back to JSON server
+        await axios.put(`http://localhost:3000/videos/${videoId}`, updatedVideo);
+
+        // Update Redux/global state if needed
+        dispatch(likeVideo(videoId));
+    };
+
+
+    async function handleDislikes(videoId, userId) {
+
+        const { data: video } = await axios.get(`http://localhost:3000/videos/${videoId}`);
+
+        let updatedVideo;
+
+        if (!video.dislikedBy.includes(userId)) {
+            // 👉 disLike
+            updatedVideo = {
+                ...video,
+                dislikes: video.dislikes + 1,
+                dislikedBy: [...video.dislikedBy, userId]
+            };
+            console.log("Liked successfully!");
+        } else {
+            // 👉 dislike
+            updatedVideo = {
+                ...video,
+                dislikes: video.dislikes > 0 ? video.dislikes - 1 : 0,
+                dislikedBy: video.dislikedBy.filter(uid => uid !== userId)
+            };
+        }
+
+        await axios.put(`http://localhost:3000/videos/${videoId}`, updatedVideo);
+
+        // Update Redux/global state if needed
+        dispatch(dislikeVedio(videoId));
+
+    }
+
+    const user = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
         axios.get('http://localhost:3000/videos').then(response => setVedios(response.data))
             .catch((err) => {
                 console.log("failed to  load vedios:", err);
             })
-    }, [])
+    }, [vedios])
 
     let stringData = context.toLowerCase();
 
@@ -106,28 +170,26 @@ export function Vediodata({ onChildClick }) {
                             <div className='d-flex justify-content-around'>
 
                                 <div>
-                                    <Button className='bi bi-hand-thumbs-up fs-3'></Button>
+                                    <Button
+                                        className={`bi bi-hand-thumbs-up-fill fs-3 ${data.likedBy?.includes(user.id) ? "text-danger" : ""}`}
+                                        onClick={() => handleLike(data.id, user.id)}>
+                                    </Button>
                                     <div className='text-center'>{data.likes}</div>
                                 </div>
 
                                 <div>
-                                    <Button className='bi bi-hand-thumbs-down fs-3'></Button>
-                                    <div  className='text-center'>{data.dislikes}</div>
+                                    <Button className={`bi bi-hand-thumbs-down-fill fs-3 ${data.dislikedBy?.includes(user.id) ? "text-danger" : ""}`} onClick={() => { handleDislikes(data.id, user.id) }} ></Button>
+                                    <div className='text-center'>{data.dislikes}</div>
                                 </div>
 
                                 <div>
-                                    <Button className="bi bi-eye fs-3"></Button>
-                                    <div  className='text-center'>{data.views}</div>
+                                    <div className="bi bi-eye fs-3"></div>
+                                    <div className='text-center'>{data.views}</div>
                                 </div>
                             </div>
                         </CardContent>
+                        <Button variant='contained' onClick={() => { handleAddtoWatchLater(data) }} color='success' className='w-100 bi bi-save2-fill fs-4'></Button>
                         <CardActions disableSpacing>
-                            <IconButton aria-label="add to favorites">
-                                <FavoriteIcon />
-                            </IconButton>
-                            <IconButton aria-label="share">
-                                <ShareIcon />
-                            </IconButton>
                             <ExpandMore
                                 expand={expandedCard === data.id}
                                 onClick={() => handleExpandClick(data.id)}
@@ -139,13 +201,11 @@ export function Vediodata({ onChildClick }) {
                         </CardActions>
                         <Collapse in={expandedCard === data.id} timeout="auto" unmountOnExit>
                             <CardContent>
-                                <Typography sx={{ marginBottom: 2 }}>
-                                    {data.comments}
+                                <Typography style={{ height: "100px", overflow: "scroll" }} sx={{ marginBottom: 2 }}>
+                                    <span className='bi bi-person-badge'></span> {data.comments}
                                 </Typography>
-
                             </CardContent>
                         </Collapse>
-                        <Button variant='contained' onClick={() => { handleAddtoWatchLater(data) }} color='success' className='w-100 bi bi-save2-fill fs-4'></Button>
                     </Card>
 
                 ))

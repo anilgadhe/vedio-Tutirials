@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import axios from 'axios'
@@ -19,6 +19,7 @@ export function Userlogin() {
            
         if(result){
           if(result.password === user.password){
+            localStorage.setItem("user", JSON.stringify(result));
              navigate("/user-dashboard");
           }else{
             alert("invalid password");
@@ -34,6 +35,14 @@ export function Userlogin() {
       password:yup.string().required("password is required"),
     })
   })
+
+  useEffect(()=>{
+    let user = JSON.parse(localStorage.getItem("user"))
+    if(user){
+      navigate("/user-dashboard")
+    }
+  },[])
+
   return (
     <div className='bg-light w-50 p-3 '>
       <h2>User-Login</h2>

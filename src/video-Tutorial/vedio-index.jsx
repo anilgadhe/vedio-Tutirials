@@ -28,7 +28,7 @@ export function VedioIndex() {
             <Route path='/' element={<Home />} />
             <Route path='admin-login' element={<AdminLogin />} />
             <Route path='admin-dashboard' element={<AdminDashboard />}>
-              <Route path="add-vedio" element={<AddVedio />} />
+              <Route path="add-video" element={<AddVedio />} />
               <Route path='edit-vedio/:id' element={<EditVedio />} />
               <Route path='delete-vedio/:id' element={<DeleteVedio />} />
             </Route>

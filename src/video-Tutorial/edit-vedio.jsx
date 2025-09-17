@@ -15,7 +15,10 @@ export function EditVedio() {
             dislikes: 0,
             views: 0,
             comments: '',
-            category_id: 0}) 
+            category_id: 0,
+             likedBy:[],
+            dislikedBy:[]}) 
+
     let params = useParams();
 
     let navigate = useNavigate();
@@ -29,7 +32,10 @@ export function EditVedio() {
             dislikes: info.dislikes,
             views: info.views,
             comments: info.comments,
-            category_id: info.category_id
+            category_id: info.category_id,
+            likedBy:[],
+            dislikedBy:[]
+
         },
         validationSchema: yup.object({
             title: yup.string().required("title is required"),
@@ -47,7 +53,10 @@ export function EditVedio() {
                 dislikes: parseInt(vedio.dislikes),
                 views: parseInt(vedio.views),
                 comments: vedio.comments,
-                category_id: parseInt(vedio.category_id)
+                category_id: parseInt(vedio.category_id),
+
+                likedBy:[],
+                dislikedBy:[]
             }
 
             axios.put(`http://localhost:3000/videos/${params.id}`, data).then(response => {
@@ -104,10 +113,10 @@ export function EditVedio() {
 
 
                     <dt>likes</dt>
-                    <dd><input type="number" name="likes" value={formik.values.likes} onChange={formik.handleChange} className="form-control" /></dd>
+                    <dd><input type="number" name="likes" value={formik.values.likes} onChange={formik.handleChange} className="form-control" readOnly /></dd>
 
                     <dt>dislikes</dt>
-                    <dd><input type="number" name="dislikes" value={formik.values.dislikes} onChange={formik.handleChange} className="form-control" /></dd>
+                    <dd><input type="number" name="dislikes" value={formik.values.dislikes} onChange={formik.handleChange} className="form-control" readOnly /></dd>
 
                     <dt>views</dt>
                     <dd><input type="number" name="views" value={formik.values.views} onChange={formik.handleChange} className="form-control" /></dd>

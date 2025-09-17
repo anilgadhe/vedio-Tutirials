@@ -35,7 +35,10 @@ export function AddVedio() {
                 dislikes: parseInt(vedio.dislikes),
                 views: parseInt(vedio.views),
                 comments: vedio.comments,
-                category_id: parseInt(vedio.category_id)
+                category_id: parseInt(vedio.category_id),
+
+                likedBy:[],
+                dislikedBy:[]
             }
 
             axios.post('http://localhost:3000/videos', data).then(response => {
@@ -62,7 +65,7 @@ export function AddVedio() {
 
                 <dl>
                     <dt>title</dt>
-                    <dd><input type="text" name="title" onChange={formik.handleChange} className="form-control" /></dd>
+                    <dd><input type="text" name="title" onChange={formik.handleChange} className="form-control" autoFocus/></dd>
                     <dd className="text-danger">{formik.errors.title}</dd>
 
                     <dt>description</dt>
